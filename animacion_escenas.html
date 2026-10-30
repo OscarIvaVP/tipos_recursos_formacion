@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La cadena de cuatro eslabones · CriterIA</title>
+<style id="course-shell-style">
+/* Armazón del curso, tomado de recursos_f2.html sin sus recursos. */
+:root{--fondo:#f2f4f6;--papel:#ffffff;--tinta:#084a41;--gris:#546170;--filete:#dce0e4;--suave:#edeff2;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html,body{width:100%;min-height:100%;background-color:var(--fondo);font-family:var(--sans);color:var(--tinta);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{line-height:1.55;background:#f2f4f6}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;touch-action:manipulation}
+button:disabled{cursor:default}
+button:focus-visible,a:focus-visible,summary:focus-visible,[tabindex]:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #d26a15;outline-offset:4px}
+h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus{outline:none}
+svg text{font-family:var(--sans)}
+.skip-link{position:fixed;top:-100px;left:20px;background:#ffffff;padding:12px;z-index:200}
+.skip-link:focus{top:12px}
+.skip-link:not(:focus){clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+
+/* Barra superior */
+.course-main{min-width:0}
+.course-topbar{position:sticky;top:0;z-index:80;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 max(28px,calc((100vw - 1160px) / 2));gap:16px;background:#f2f4f6f5;border-bottom:1px solid #dde1e5}
+.course-brand{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:750;letter-spacing:-.7px}
+.brand-mark{height:31px;width:31px;display:grid;place-items:center;color:#ffffff;background:#273545;border-radius:11px;font-size:20px}
+.brand-context{font-size:12px;font-weight:400;letter-spacing:0;color:#69776b;margin-left:14px;padding-left:22px;border-left:1px solid #d1d6dc}
+.btn-volver-mapa{margin:0;padding:9px 0;display:inline-flex;align-items:center;gap:12px;border:0;background:none;color:#39424c;font-size:13px}
+.btn-volver-mapa:hover{color:#18212b}
+.btn-volver-mapa span{font-size:21px}
+.inside-resource .course-brand{display:none}
+.motion-toggle{flex:0 0 38px;width:38px;height:38px;margin-left:auto;padding:8px;display:grid;place-items:center;border:1px solid #d1d7dd;border-radius:50%;background:transparent;color:#495460}
+.motion-toggle svg{width:19px;height:19px}
+.motion-toggle:hover{background:#e4e7ea}
+
+/* Portada */
+.page-inner{max-width:1216px;margin:auto;padding:32px 28px 24px}
+.eyebrow{font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:1.7px}
+.course-hero{display:grid;grid-template-columns:1.05fr 1fr;min-height:354px;background:#202b38;color:#ffffff;border-radius:22px;position:relative;overflow:hidden;border:1px solid #2a394b}
+.hero-copy{position:relative;z-index:2;padding:37px 16px 38px 43px;align-self:center}
+.hero-copy .eyebrow{color:#bbc3cc;font-size:10px;display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.hero-copy .eyebrow:before{content:'';width:22px;height:1px;background:#94a0ae}
+.hero-copy h1{font-size:clamp(40px,4.5vw,60px);font-weight:620;line-height:1.04;letter-spacing:-2.3px;margin:0 0 20px}
+.hero-copy h1 em{font-family:Georgia,serif;font-weight:400;color:#b6bec8}
+.hero-copy p{color:#cfd5db;font-size:14px;line-height:1.75;max-width:42ch}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.hero-meta span{font-size:11px;color:#dadee3;border:1px solid #546170;border-radius:999px;padding:4px 11px;background:#ffffff0d}
+.hero-meta span b{font-weight:650;color:#d5dadf}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:24px}
+.primary-action{background:#bfc6ce;color:#1f2a36;border:1px solid #bfc6ce;font-size:13px;font-weight:750;padding:11px 19px;border-radius:8px;display:inline-flex;gap:30px;align-items:center}
+.primary-action:hover{background:#d5dadf;transform:translateY(-1px)}
+.hero-visual{display:grid;align-content:center;position:relative;padding:16px 26px 16px 0;width:100%;background:radial-gradient(ellipse at 60% 50%,#434d5943,transparent 70%)}
+.hero-visual svg{width:100%;height:auto;max-height:340px;overflow:visible}
+.hero-dash{stroke-dasharray:5 9;animation:dash-flow 5s linear infinite}
+.hero-signal{animation:signal-travel 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.diagram-flow{stroke-dasharray:5 7;animation:dash-flow 4s linear infinite}
+@keyframes dash-flow{to{stroke-dashoffset:-56}}
+@keyframes signal-travel{0%,20%{opacity:.3}45%,65%{opacity:1}90%,100%{opacity:.3}}
+.guiding-question{margin-top:22px;padding:18px 22px;border-left:3px solid #8593a3;background:#e9ecef;border-radius:0 12px 12px 0;color:#2d3e51}
+.guiding-question .eyebrow{font-size:10px;color:#596776;letter-spacing:1.4px}
+.guiding-question p{font-size:16px;line-height:1.6;margin-top:6px;max-width:80ch}
+
+/* Mapa: tema → subtema → dos recursos para aprender y uno para evaluar */
+.course-curriculum{display:block;margin-top:38px}
+.curriculum-guide{font-size:13px;color:#5a6878;line-height:1.7;margin:0 0 26px}
+.curriculum-topic{margin:0 0 38px;scroll-margin-top:90px}
+.topic-heading{display:flex;gap:18px;align-items:baseline;margin:0 0 16px}
+.topic-heading h2{font-size:24px;font-weight:650;letter-spacing:-.7px;white-space:nowrap;margin:0;color:#2a394a}
+.topic-heading p{font-size:15px;color:#586574;line-height:1.5;margin:0}
+.topic-hours,.subtopic-hours{flex-shrink:0;font-size:11px;font-weight:650;color:#4c5764;background:#e2e6ea;border:1px solid #d1d7dd;border-radius:999px;padding:2px 10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.topic-hours{margin-left:auto}
+.subtopic{border:1px solid #d7dce1;background:#f8f9fa;border-radius:13px;margin:0 0 12px;overflow:hidden}
+.subtopic>summary{display:flex;align-items:center;gap:15px;min-height:76px;padding:17px 22px;cursor:pointer;list-style:none}
+.subtopic>summary::-webkit-details-marker{display:none}
+.subtopic>summary:hover{background:#ebedf0}
+.subtopic>summary:focus-visible{outline:3px solid #53606e;outline-offset:-4px;border-radius:12px}
+.subtopic-number{display:grid;place-items:center;flex:0 0 42px;height:42px;background:#e2e6ea;border:1px solid #d1d7dd;border-radius:10px;color:#444e5a;font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.subtopic-name{font-size:16px;font-weight:600;line-height:1.5;color:#2d3e51}
+.subtopic-hours{margin-left:auto}
+.subtopic-chevron{width:19px;height:19px;flex-shrink:0;transition:transform .2s ease;color:#5c6a79}
+.subtopic[open]>summary .subtopic-chevron{transform:rotate(180deg)}
+.subtopic[open]>summary{border-bottom:1px solid #dce0e4}
+.subtopic.is-pending{background:transparent}
+.subtopic.is-pending>summary{min-height:66px;padding-top:12px;padding-bottom:12px}
+.subtopic.is-pending .subtopic-number{background:#eceef1;color:#657485;border-color:#dadee3}
+.subtopic.is-pending .subtopic-name{color:#485360;font-size:14px;font-weight:500}
+.subtopic-context{grid-column:1/-1;margin:0;color:#4e5a68;font-size:13px;line-height:1.7}
+.subtopic-context b{font-weight:650;color:#404954}
+.subtopic-resources{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:20px}
+
+/* Tarjetas de recurso (cuando se incorporen) y casillas pendientes */
+button.resource-card{width:100%;appearance:none;text-align:left;padding:0;color:#222e3c;font:inherit;background:#ffffff;border:1px solid #d7dce1;border-radius:11px;box-shadow:0 3px 7px #212d3a03;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:stretch;transition:transform .25s ease,box-shadow .25s ease}
+button.resource-card:hover{border-color:#8694a4;box-shadow:0 10px 25px #212d3a12;transform:translateY(-3px)}
+button.resource-card:active{transform:translateY(0);box-shadow:none}
+.resource-image{height:112px;min-height:0;overflow:hidden;width:100%;background:#e7eaed;display:flex;align-items:center;justify-content:center}
+.resource-image svg{width:220px;height:112px;max-width:100%}
+.resource-body{padding:17px 19px 20px;position:relative;width:100%;display:block;flex:1}
+.resource-purpose{display:block;font-size:10px;font-weight:650;letter-spacing:1px;text-transform:uppercase;color:#5f6e7f;margin-bottom:8px}
+.resource-title{display:block;max-width:calc(100% - 18px);font-size:17px;line-height:1.4;letter-spacing:-.45px;font-weight:650}
+.resource-description{display:block;margin-top:8px;color:#596777;font-size:12px;line-height:1.75}
+.resource-arrow{position:absolute;top:42px;right:15px;font-size:20px;line-height:1;color:#5f6d7d;transition:transform .2s ease}
+.resource-card:hover .resource-arrow{transform:translate(2px,-2px)}
+.resource-card[data-purpose="assess"]{border-color:#b5bec8}
+.resource-card[data-purpose="assess"] .resource-purpose{color:#424c57}
+.resource-placeholder{border:1px dashed #cdd3d9;border-radius:11px;background:#eff1f3;min-width:0;padding:23px;display:flex;flex-direction:column;justify-content:center}
+.resource-placeholder .resource-purpose{color:#616f80}
+.resource-placeholder strong{font-size:14px;line-height:1.5;font-weight:500;color:#5c6a79}
+.resource-placeholder p{font-size:12px;color:#7e8875;line-height:1.6;margin:8px 0 0}
+
+/* Nota de reflexión y pie */
+.experience-note{margin-top:25px;border-top:1px solid #d6dbe0;border-bottom:1px solid #d6dbe0;color:#495460}
+.experience-note summary{padding:16px 0;font-size:12px;font-weight:550;cursor:pointer}
+.experience-note>div{max-width:730px;padding:0 0 20px}
+.experience-note label{font-size:13px;display:block}
+.experience-note textarea{display:block;width:100%;margin-top:12px;min-height:86px;font-size:13px;background:#ffffff;border:1px solid #c8ced5;border-radius:8px;padding:10px 12px;color:var(--tinta);resize:vertical}
+.local-note{font-size:10px;color:#68788a;margin-top:5px}
+.course-footer{font-size:11px;color:#7b887c;display:flex;justify-content:space-between;gap:15px;margin-top:20px}
+
+.motion-paused *,.motion-paused *:before,.motion-paused *:after,body.page-inactive *{animation-play-state:paused!important}
+
+@media(min-width:1600px){.page-inner{max-width:1356px}.course-topbar{padding-left:max(28px,calc((100vw - 1300px)/2));padding-right:max(28px,calc((100vw - 1300px)/2))}.course-hero{min-height:400px}.hero-visual svg{max-height:370px}.hero-copy{padding-left:52px}}
+@media(max-width:1000px){
+  .subtopic-resources{gap:12px;padding:16px}
+  .resource-body{padding:15px}
+  .resource-title{font-size:16px}
+  .resource-arrow{right:10px}
+  .resource-placeholder{padding:17px}
+}
+@media(max-width:950px){
+  .hero-copy{padding:32px 12px 32px 30px}
+  .hero-copy h1{font-size:47px}
+  .hero-visual{padding-right:16px}
+  .course-hero{min-height:330px;grid-template-columns:1fr .95fr}
+}
+@media(max-width:700px){
+  .course-topbar{height:62px;padding:0 16px}
+  .course-brand{font-size:21px}
+  .brand-context{display:none}
+  .page-inner{padding:20px 16px 24px}
+  .course-hero{grid-template-columns:1fr;min-height:0;border-radius:17px}
+  .hero-copy{padding:28px 22px 8px}
+  .hero-copy h1{font-size:clamp(36px,10.4vw,52px);margin-bottom:16px}
+  .hero-copy p{font-size:13px;max-width:45ch}
+  .hero-actions{margin-top:19px}
+  .hero-visual{max-width:360px;padding:0 10px 9px;justify-self:center}
+  .hero-visual svg{max-height:240px}
+  .guiding-question{padding:14px 16px}
+  .guiding-question p{font-size:14px}
+  .course-curriculum{margin-top:28px}
+  .curriculum-guide{font-size:12px;margin-bottom:23px}
+  .topic-heading{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin-bottom:13px}
+  .topic-heading h2{font-size:23px}
+  .topic-heading p{grid-column:1/-1;grid-row:2;font-size:14px}
+  .topic-hours{grid-column:2;grid-row:1;align-self:center}
+  .curriculum-topic{margin-bottom:28px}
+  .subtopic>summary{padding:14px 13px;gap:10px;min-height:76px;flex-wrap:wrap}
+  .subtopic-number{flex-basis:36px;height:36px;font-size:13px;border-radius:8px}
+  .subtopic-name{font-size:14px;flex:1 1 0;min-width:0}
+  .subtopic-hours{margin-left:0}
+  .subtopic.is-pending>summary{padding:12px 13px}
+  .subtopic-resources{grid-template-columns:1fr;padding:12px;gap:11px}
+  .subtopic-resources .resource-card{display:grid;grid-template-columns:80px minmax(0,1fr)}
+  .subtopic-resources .resource-image{height:100%;min-height:140px}
+  .subtopic-resources .resource-image svg{width:115px;max-width:none;flex-shrink:0;height:auto}
+  .resource-body{padding:15px 13px}
+  .resource-purpose{font-size:9px;margin-bottom:6px;letter-spacing:.8px}
+  .resource-title{font-size:15px;max-width:100%}
+  .resource-description{font-size:11px;line-height:1.6}
+  .resource-arrow{display:none}
+  .resource-placeholder{padding:17px}
+  .resource-placeholder strong{font-size:13px}
+  .resource-placeholder p{margin-top:4px;font-size:11px}
+  .experience-note summary{font-size:11px}
+  .course-footer{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  button.resource-card,.resource-arrow,.subtopic-chevron{transition:none}
+  button.resource-card:hover,.resource-card:hover .resource-arrow{transform:none}
+}
+
+/* Piezas comunes de los recursos: encabezado, botones y juego de clasificación (Curso.clasificar) */
+.rc-head{max-width:860px;margin:4px 0 26px}
+.rc-kicker{font-size:10px;font-weight:750;letter-spacing:1.6px;text-transform:uppercase;color:#5f6e7f}
+.rc-head h1{font-size:clamp(30px,3.4vw,44px);font-weight:640;letter-spacing:-1.4px;line-height:1.1;color:#212d3a;margin:10px 0 14px}
+.rc-head h1 em{font-family:Georgia,serif;font-weight:400;color:#505c6a}
+.rc-lead{font-size:15px;line-height:1.75;color:#47525e;max-width:70ch}
+.rc-note{font-size:12px;color:#627183;margin-top:10px}
+.rc-btn{border:1px solid #c4cbd3;background:#f4f5f6;color:#373f49;border-radius:8px;padding:8px 13px;font-size:12px;font-weight:600}
+.rc-btn:hover:not(:disabled){background:#e6e9ec}
+.rc-btn:disabled{opacity:.45}
+.rc-btn.rc-main{background:#bfc6ce;border-color:#a8b2be;color:#1f2a36;font-size:13px;font-weight:750;padding:10px 16px}
+.rc-btn.rc-main:hover:not(:disabled){background:#d5dadf}
+.rc-btn.rc-dark{background:#202b38;border-color:#202b38;color:#d5dadf}
+.rc-btn.rc-dark:hover:not(:disabled){background:#29384a}
+.rc-next{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:28px;padding-top:20px;border-top:1px solid #d6dbe0;font-size:13px;color:#495460}
+.cj-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.cj-score{font-size:13px;color:#404954;font-weight:650}
+.cj-bar{flex:1 1 160px;max-width:320px;height:6px;border-radius:9px;background:#e0e3e7;overflow:hidden}
+.cj-bar i{display:block;height:100%;width:0;background:#596675;transition:width .3s}
+.cj-list{display:grid;gap:14px}
+.cj-item{background:#ffffff;border:1px solid #d7dce1;border-radius:14px;padding:18px 20px}
+.cj-item.is-ok{border-color:#8f9cab;background:#f7f8f9}
+.cj-item.is-bad{border-color:#e79c93;background:#fefbfb}
+.cj-num{font-size:10px;font-weight:750;letter-spacing:1.3px;color:#6d7d90;text-transform:uppercase;margin-bottom:8px}
+.cj-body{font-size:14px;line-height:1.65;color:#293849}
+.cj-opts{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.cj-opts button{border:1px solid #c8ced5;background:#f6f7f9;color:#3c454f;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:550}
+.cj-opts button:hover:not(:disabled){background:#e4e7eb;border-color:#8795a5}
+.cj-opts button:disabled{cursor:default;opacity:.55}
+.cj-opts button.is-chosen{opacity:1;border-width:2px}
+.cj-opts button.is-right{opacity:1;background:#e6e9ed;border-color:#6b7c8e;color:#2b3b4d}
+.cj-opts button.is-wrong{opacity:1;background:#f9e8e6;border-color:#dd7367;color:#8e2b20}
+.cj-fb{margin-top:12px;font-size:13px;line-height:1.65;color:#414b56;border-left:3px solid #8593a3;padding:2px 0 2px 12px}
+.cj-item.is-bad .cj-fb{border-left-color:#e2887e}
+.cj-fb b{color:#23303f}
+.cj-end{margin-top:18px;padding:18px 20px;border-radius:14px;background:#e9ecef;color:#2d3e51;font-size:14px;line-height:1.7}
+.cj-end strong{font-size:18px;display:block;margin-bottom:4px}
+.cj-end .rc-btn{margin-top:10px}
+@media(max-width:700px){.cj-item{padding:15px}.cj-body{font-size:13.5px}.rc-head h1{letter-spacing:-1px}}
+</style>
+<script id="course-kit">
+/* Herramientas comunes de los recursos. Se cargan antes que ellos. */
+window.Curso = (() => {
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  async function copiar(texto, fb) {
+    let ok = false;
+    try { await navigator.clipboard.writeText(texto); ok = true; } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = texto; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.append(ta); ta.select();
+      try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+      ta.remove();
+    }
+    if (fb) { fb.textContent = ok ? 'Copiado ✓' : 'No se pudo copiar: selecciona el texto y usa Ctrl+C.'; setTimeout(() => { fb.textContent = ''; }, 4000); }
+    return ok;
+  }
+  function barajar(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  // Juego de clasificación: cada ítem se responde una vez y muestra su explicación al instante.
+  // cfg = { items:[{html, correcta, explicacion, opciones?}], opciones:[…], cierre:(aciertos,total)=>html, barajar:true }
+  function clasificar(cont, cfg) {
+    function ronda() {
+      const items = cfg.barajar === false ? cfg.items : barajar(cfg.items);
+      let resp = 0, ok = 0;
+      cont.innerHTML = `<div class="cj-top"><span class="cj-score" aria-live="polite">0 de ${items.length} respondidas</span><span class="cj-bar" aria-hidden="true"><i></i></span></div>
+        <div class="cj-list">${items.map((it, i) => `<div class="cj-item" data-i="${i}"><p class="cj-num">${i + 1} de ${items.length}</p><div class="cj-body">${it.html}</div>
+          <div class="cj-opts" role="group" aria-label="Elige una respuesta para el caso ${i + 1}">${(it.opciones || cfg.opciones).map(o => `<button type="button" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+          <div class="cj-fb" hidden aria-live="polite"></div></div>`).join('')}</div><div class="cj-end" hidden></div>`;
+      const score = cont.querySelector('.cj-score'), bar = cont.querySelector('.cj-bar i'), end = cont.querySelector('.cj-end');
+      cont.querySelectorAll('.cj-item').forEach(card => {
+        const it = items[card.dataset.i];
+        card.querySelector('.cj-opts').addEventListener('click', e => {
+          const b = e.target.closest('button'); if (!b || b.disabled) return;
+          const bien = b.dataset.o === it.correcta;
+          card.querySelectorAll('.cj-opts button').forEach(x => { x.disabled = true; if (x.dataset.o === it.correcta) x.classList.add('is-right'); });
+          b.classList.add('is-chosen', bien ? 'is-right' : 'is-wrong');
+          card.classList.add(bien ? 'is-ok' : 'is-bad');
+          const fb = card.querySelector('.cj-fb');
+          fb.innerHTML = (bien ? '<b>✓ Correcto.</b> ' : `<b>✗ No: es «${esc(it.correcta)}».</b> `) + it.explicacion;
+          fb.hidden = false;
+          resp++; if (bien) ok++;
+          score.textContent = `${resp} de ${items.length} respondidas · ${ok} correctas`;
+          bar.style.width = (100 * resp / items.length) + '%';
+          if (resp === items.length) {
+            end.innerHTML = (cfg.cierre ? cfg.cierre(ok, items.length) : `<strong>${ok} de ${items.length} correctas</strong>`) + '<br><button type="button" class="rc-btn">Volver a intentar (otro orden)</button>';
+            end.hidden = false;
+            end.querySelector('button').addEventListener('click', () => { ronda(); cont.scrollIntoView({block: 'start'}); });
+          }
+        });
+      });
+    }
+    ronda();
+  }
+  return {copiar, clasificar, barajar, esc};
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+</head>
+<body>
+<header class="ti-top"><div>
+  <span class="ti-brand"><span class="ti-dots" aria-hidden="true"><i style="background:var(--ti-met)"></i><i style="background:var(--ti-ana)"></i><i style="background:var(--ti-her)"></i><i style="background:var(--ti-usu)"></i></span><span>La cadena de cuatro eslabones</span></span>
+  <a class="ti-back" href="index.html"><span aria-hidden="true">←</span> Tipos de recursos</a>
+</div></header>
+<main>
+<style id="r02-style">
+#view-r02{padding-bottom:48px}
+.r02-stage{background:#ffffff;border:1px solid #d7dce1;border-radius:20px;padding:26px 28px 22px;position:relative;overflow:hidden}
+.r02-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.r02-count{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#6d7d90;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.r02-title{font-size:clamp(20px,2.2vw,28px);font-weight:640;letter-spacing:-.6px;color:#212d3a;line-height:1.25;margin:0 0 18px;min-height:2.5em}
+.r02-scene{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.r02-chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;position:relative}
+.r02-link{position:relative;border-radius:14px;padding:14px 15px 16px;min-height:150px;border:1.5px solid;opacity:.25;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease,background .4s,border-color .4s}
+.r02-link.is-on{opacity:1;transform:none}
+.r02-link.is-dim{opacity:.35;transform:none;filter:grayscale(.8)}
+.r02-link.is-broken{background:#fbeeec!important;border-color:#dd7367!important;border-style:dashed}
+.r02-link:not(:last-child)::after{content:'';position:absolute;right:-23px;top:50%;width:22px;height:4px;border-radius:3px;background:#7e8c9d;transition:background .4s}
+.r02-link.is-broken::after,.r02-link.is-dim::after{background:#d3d8de}
+.r02-link[data-k="0"]{background:#eaedf0;border-color:#a7b1bc}
+.r02-link[data-k="1"]{background:#faeef2;border-color:#d8b3c1}
+.r02-link[data-k="2"]{background:#fcebdd;border-color:#f1ab72}
+.r02-link[data-k="3"]{background:#eceef0;border-color:#a4aeba}
+.r02-lab{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:750;letter-spacing:1.4px;text-transform:uppercase;color:#495460;margin-bottom:8px}
+.r02-lab i{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#ffffff;font-style:normal;font-size:11px;color:#2a394b;border:1px solid currentColor}
+.r02-link[data-k="1"] .r02-lab{color:#855567}
+.r02-link[data-k="2"] .r02-lab{color:#954b0f}
+.r02-link[data-k="3"] .r02-lab{color:#424c57}
+.r02-link.is-broken .r02-lab{color:#aa3426}
+.r02-txt{font-size:13.5px;line-height:1.6;color:#293849}
+.r02-txt b{font-weight:650}
+.r02-txt .r02-x{display:block;margin-top:8px;font-size:12px;color:#aa3426;font-weight:650}
+.r02-ilus{display:flex;justify-content:center;align-items:center;min-height:0;max-height:0;opacity:0;overflow:hidden;transition:max-height .6s ease,opacity .5s ease}
+.r02-ilus.is-on{max-height:260px;opacity:1}
+.r02-ilus svg{width:min(560px,100%);height:auto}
+.r02-matrix{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;line-height:1.5;color:#293849;opacity:0;transition:opacity .5s}
+.r02-matrix.is-on{opacity:1}
+.r02-matrix th{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;text-align:left;padding:9px 12px;color:#495460;background:#eaecef;border-bottom:1px solid #d1d7dd}
+.r02-matrix td{padding:11px 12px;border-bottom:1px solid #e3e6ea;vertical-align:top}
+.r02-matrix tr:last-child td{border-bottom:0}
+.r02-matrix td:first-child{font-weight:600}
+.r02-matrix-wrap{border:1px solid #d1d7dd;border-radius:12px;overflow:hidden;display:none}
+.r02-matrix-wrap.is-on{display:block}
+.r02-caption{margin-top:18px;padding:14px 18px;border-radius:12px;background:#202b38;color:#e8eaed;font-size:15px;line-height:1.7;min-height:86px}
+.r02-controls{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.r02-dots{display:flex;gap:6px;margin:0 auto 0 8px}
+.r02-dots button{width:26px;height:26px;border-radius:50%;border:1px solid #c8ced5;background:#f4f5f6;font-size:11px;color:#4f5b68;padding:0}
+.r02-dots button[aria-current="step"]{background:#202b38;border-color:#202b38;color:#d5dadf}
+.r02-transcript{margin-top:22px;border-top:1px solid #d6dbe0;color:#495460}
+.r02-transcript summary{padding:14px 0;font-size:12.5px;font-weight:600;cursor:pointer}
+.r02-transcript ol{padding-left:22px;max-width:760px;font-size:13px;line-height:1.75}
+.r02-transcript li{margin-bottom:10px;padding-left:4px}
+.r02-dot-a{fill:#48535f}.r02-dot-b{fill:#b3845e}
+.r02-bubble{opacity:0;transition:opacity .5s}
+.r02-ilus.show-talk .r02-bubble{opacity:1}
+.r02-grade{opacity:0;transition:opacity .5s}
+.r02-ilus.show-grade .r02-grade{opacity:1}
+@media(max-width:900px){
+  .r02-chain{grid-template-columns:1fr 1fr;gap:16px}
+  .r02-link:not(:last-child)::after{display:none}
+  .r02-link{min-height:0}
+}
+@media(max-width:700px){
+  .r02-stage{padding:18px 14px 16px;border-radius:16px}
+  .r02-chain{grid-template-columns:1fr;gap:10px}
+  .r02-link{padding:12px 13px}
+  .r02-caption{font-size:14px;padding:12px 14px}
+  .r02-dots{margin:0;order:3;width:100%;justify-content:center}
+  .r02-matrix{font-size:12px}
+  .r02-matrix th,.r02-matrix td{padding:8px}
+  .r02-matrix-wrap{overflow-x:auto}
+}
+@media(prefers-reduced-motion:reduce){.r02-link,.r02-ilus,.r02-matrix,.r02-bubble,.r02-grade{transition:none}}
+</style>
+<section id="view-r02" class="page-inner" hidden aria-labelledby="r02-h">
+  <header class="rc-head">
+    <p class="rc-kicker">Tema 1 · Subtema 1.1 · Aprender · 1</p>
+    <h1 id="r02-h">La cadena de <em>cuatro eslabones.</em></h1>
+    <p class="rc-lead">Toda decisión de análisis se desprende de una cadena. Recórrela en seis escenas con el caso del aula y mira qué pasa cuando un eslabón no corresponde al anterior.</p>
+    <p class="rc-note">Avanza con los botones o con las flechas del teclado. El caso usa datos de práctica, no evidencia empírica.</p>
+  </header>
+
+  <div class="r02-stage">
+    <div class="r02-top"><span class="r02-count" id="r02-count"></span></div>
+    <h2 class="r02-title" id="r02-title" aria-live="polite"></h2>
+    <div class="r02-scene">
+      <div class="r02-ilus" id="r02-ilus" aria-hidden="true">
+        <svg viewBox="0 0 560 220">
+          <rect x="20" y="20" width="240" height="180" rx="16" fill="#eaedf0" stroke="#a7b1bc"/><text x="40" y="46" font-size="12" font-weight="700" fill="#48535f">GRUPO CON TUTORÍAS</text>
+          <rect x="300" y="20" width="240" height="180" rx="16" fill="#fcede1" stroke="#f1ab72"/><text x="320" y="46" font-size="12" font-weight="700" fill="#954b0f">GRUPO SIN TUTORÍAS</text>
+          <g id="r02-dots"></g>
+          <g class="r02-bubble"><rect x="150" y="56" width="98" height="30" rx="10" fill="#ffffff" stroke="#a7b1bc"/><path d="M168 86l-6 10 14-10" fill="#ffffff" stroke="#a7b1bc"/><text x="160" y="76" font-size="11" fill="#48535f">«Me ayudó…»</text>
+            <rect x="34" y="150" width="112" height="30" rx="10" fill="#ffffff" stroke="#a7b1bc"/><text x="44" y="170" font-size="11" fill="#48535f">«No me sirvió…»</text></g>
+        </svg>
+      </div>
+      <div class="r02-chain" id="r02-chain">
+        <div class="r02-link" data-k="0"><p class="r02-lab"><i>1</i>Pregunta</p><div class="r02-txt"></div></div>
+        <div class="r02-link" data-k="1"><p class="r02-lab"><i>2</i>Diseño</p><div class="r02-txt"></div></div>
+        <div class="r02-link" data-k="2"><p class="r02-lab"><i>3</i>Datos</p><div class="r02-txt"></div></div>
+        <div class="r02-link" data-k="3"><p class="r02-lab"><i>4</i>Análisis</p><div class="r02-txt"></div></div>
+      </div>
+      <div class="r02-matrix-wrap" id="r02-mwrap">
+        <table class="r02-matrix" id="r02-matrix">
+          <caption class="sr-only">Matriz de coherencia del caso del aula</caption>
+          <thead><tr><th scope="col">Pregunta</th><th scope="col">Diseño</th><th scope="col">Datos</th><th scope="col">Análisis</th></tr></thead>
+          <tbody>
+            <tr><td>¿Difieren las notas finales entre el grupo con tutorías y el grupo sin ellas? (comparar)</td><td>Cuantitativo · unidad: cada estudiante</td><td>Nota final de cada estudiante y su grupo</td><td>Comparación de dos grupos, según supuestos</td></tr>
+            <tr><td>¿Cómo vivieron las tutorías sus estudiantes? (comprender)</td><td>Cualitativo · unidad: fragmento de entrevista</td><td>Entrevistas breves al estudiantado</td><td>Codificación con extractos y temas</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="r02-caption" id="r02-caption" aria-live="polite"></p>
+    <div class="r02-controls">
+      <button type="button" class="rc-btn" id="r02-prev">← Anterior</button>
+      <button type="button" class="rc-btn rc-dark" id="r02-next">Siguiente →</button>
+      <button type="button" class="rc-btn" id="r02-play" aria-pressed="false">▶ Reproducir</button>
+      <div class="r02-dots" id="r02-dots-nav" role="group" aria-label="Escenas"></div>
+    </div>
+  </div>
+
+  <details class="r02-transcript"><summary>Ver la transcripción completa</summary><ol id="r02-transcript"></ol></details>
+  <div class="rc-next"><span>Ahora arma tú la cadena:</span><button type="button" class="rc-btn rc-main" data-open-view="r03">¿Tu método responde tu pregunta? →</button></div>
+</section>
+</main>
+<script id="standalone-boot">
+  /* Arranque del recurso suelto: lo que en recursos_i2.html aporta la navegación del curso. */
+  window.courseMotionPaused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const standaloneFiles = {'r02': 'animacion_escenas.html', 'r03': 'cadena_y_matriz.html', 'r04': 'clasificar.html', 'r01': 'prompt_y_decision.html'};
+  function showView(viewId) {
+    if (viewId === 'r02') return;
+    if (viewId === 'slide-1') location.href = 'index.html';
+    else if (standaloneFiles[viewId]) location.href = standaloneFiles[viewId];
+  }
+  document.addEventListener('click', e => {
+    const button = e.target.closest('[data-open-view]');
+    if (button && !button.disabled) showView(button.dataset.openView);
+  });
+</script>
+<script id="r02-runtime">
+(() => {
+  const root = document.getElementById('view-r02');
+  const $ = s => root.querySelector(s);
+  const DEF = [
+    'Qué se quiere <b>describir, comparar, relacionar o comprender</b>.',
+    '<b>Cuantitativo, cualitativo o mixto</b>, y con qué unidades de análisis: personas, muestras, documentos, registros.',
+    'Qué <b>variables o materiales</b> se tienen realmente y qué dejan por fuera.',
+    'El <b>procedimiento</b> que conecta esos datos con la pregunta.'
+  ];
+  const Q1 = [
+    '¿Difieren las notas finales (0,0 a 5,0) entre el grupo con tutorías y el grupo sin ellas? Pide <b>comparar</b>.',
+    '<b>Cuantitativo.</b> Unidad de análisis: <b>cada estudiante</b>.',
+    'La <b>nota final</b> de cada estudiante y su grupo.',
+    '<b>Comparación de dos grupos.</b> La prueba depende de supuestos que se revisan en los datos (Tema 2).'
+  ];
+  const Q2 = [
+    '¿Cómo vivieron las tutorías sus estudiantes? Pide <b>interpretar experiencias</b>.',
+    '<b>Cualitativo.</b> Unidad de análisis: <b>el fragmento de entrevista</b>.',
+    '<b>Entrevistas breves</b> al estudiantado.',
+    '<b>Codificación con extractos</b> y construcción de temas: no hay nada que promediar.'
+  ];
+  const ROTA = [Q2[0], Q2[1], 'Las <b>notas finales</b> de los dos grupos.<span class="r02-x">✗ Las notas no contienen experiencias.</span>', 'Cualquier prueba sobre las notas.<span class="r02-x">Ningún análisis posterior lo corrige.</span>'];
+  // Cada escena: título, narración, textos de la cadena, eslabones encendidos, roto, ilustración y matriz.
+  const ESC = [
+    {t: 'Toda decisión de análisis se desprende de una cadena', c: 'Toda decisión de análisis se desprende de una cadena. El primer eslabón es la pregunta; el segundo, el diseño; el tercero, los datos; el cuarto, la estrategia de análisis: el procedimiento que conecta esos datos con la pregunta.', txt: DEF, on: [0, 1, 2, 3], stagger: true},
+    {t: 'El caso del aula', c: 'Una docente ofreció tutorías entre pares a uno de los dos grupos de su curso y quiere saber dos cosas. El caso usa datos de práctica, que no constituyen evidencia empírica, y sirve en cualquier disciplina: toda persona que enseña ha probado alguna vez una estrategia con un grupo.', txt: DEF, on: [], ilus: ''},
+    {t: 'Primera pregunta: ¿difieren las notas?', c: 'La primera es si las notas finales, en escala de 0,0 a 5,0, difieren entre el grupo con tutorías y el grupo sin ellas: la pregunta pide comparar, la unidad es cada estudiante y la variable es la nota.', txt: Q1, on: [0, 1, 2, 3], stagger: true, ilus: 'show-grade'},
+    {t: 'Segunda pregunta: ¿cómo vivieron las tutorías?', c: 'La segunda es cómo vivieron las tutorías sus estudiantes: la pregunta pide interpretar experiencias, la unidad es el fragmento de entrevista y no hay nada que promediar.', txt: Q2, on: [0, 1, 2, 3], stagger: true, ilus: 'show-talk'},
+    {t: 'Cuando un eslabón no corresponde', c: 'Si un eslabón no corresponde al anterior, ningún análisis posterior lo corrige. Con la segunda pregunta, las notas no dicen cómo se vivieron las tutorías, por buena que sea la prueba que se les aplique.', txt: ROTA, on: [0, 1], broken: 2, dim: [3]},
+    {t: 'La matriz de coherencia', c: 'Una matriz sencilla —pregunta, diseño, datos, análisis— hace visible la cadena y permite detectar incoherencias antes de abrir cualquier herramienta. Combinar las dos rutas en un diseño mixto exige, además, justificar qué aporta cada una.', matriz: true}
+  ];
+
+  // Puntos de la ilustración: estudiantes de cada grupo, con su nota de práctica.
+  const dots = $('#r02-dots');
+  const notasA = ['4,1', '3,8', '4,4', '3,5', '4,0', '3,9', '4,6', '3,2', '4,2', '3,7'];
+  const notasB = ['3,4', '3,0', '3,9', '2,8', '3,6', '3,3', '4,1', '2,9', '3,5', '3,1'];
+  const ns = 'http://www.w3.org/2000/svg';
+  [[notasA, 52, 'r02-dot-a'], [notasB, 332, 'r02-dot-b']].forEach(([notas, x0, cls]) => notas.forEach((n, i) => {
+    const x = x0 + (i % 5) * 42, y = 96 + Math.floor(i / 5) * 56;
+    const c = document.createElementNS(ns, 'circle'); c.setAttribute('cx', x + 10); c.setAttribute('cy', y); c.setAttribute('r', 11); c.setAttribute('class', cls); dots.append(c);
+    const t = document.createElementNS(ns, 'text'); t.setAttribute('x', x + 10); t.setAttribute('y', y + 28); t.setAttribute('font-size', 11); t.setAttribute('text-anchor', 'middle'); t.setAttribute('fill', '#47525e'); t.setAttribute('class', 'r02-grade'); t.textContent = n; dots.append(t);
+  }));
+
+  const links = [...root.querySelectorAll('.r02-link')];
+  const nav = $('#r02-dots-nav');
+  nav.innerHTML = ESC.map((e, i) => `<button type="button" data-i="${i}" aria-label="Escena ${i + 1}: ${e.t}">${i + 1}</button>`).join('');
+  $('#r02-transcript').innerHTML = ESC.map(e => `<li><b>${e.t}.</b> ${e.c}</li>`).join('');
+  let cur = 0, timers = [], auto = null;
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+  function go(i) {
+    cur = Math.max(0, Math.min(ESC.length - 1, i));
+    const e = ESC[cur];
+    clearTimers();
+    $('#r02-count').textContent = `Escena ${cur + 1} de ${ESC.length}`;
+    $('#r02-title').textContent = e.t;
+    $('#r02-caption').textContent = e.c;
+    const ilus = $('#r02-ilus');
+    ilus.className = 'r02-ilus' + (e.ilus !== undefined ? ' is-on ' + e.ilus : '');
+    $('#r02-chain').style.display = e.matriz ? 'none' : '';
+    $('#r02-mwrap').classList.toggle('is-on', !!e.matriz);
+    $('#r02-matrix').classList.toggle('is-on', !!e.matriz);
+    links.forEach((l, k) => {
+      l.className = 'r02-link';
+      if (e.txt) l.querySelector('.r02-txt').innerHTML = e.txt[k];
+      const lit = (e.on || []).includes(k);
+      const delay = e.stagger && !window.courseMotionPaused ? k * 450 : 0;
+      if (lit) { if (delay) timers.push(setTimeout(() => l.classList.add('is-on'), delay)); else l.classList.add('is-on'); }
+      if (e.broken === k) l.classList.add('is-on', 'is-broken');
+      if ((e.dim || []).includes(k)) l.classList.add('is-dim');
+    });
+    nav.querySelectorAll('button').forEach((b, k) => { if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+    $('#r02-prev').disabled = cur === 0;
+    $('#r02-next').disabled = cur === ESC.length - 1;
+    if (cur === ESC.length - 1) stop();
+  }
+  function stop() { clearInterval(auto); auto = null; const b = $('#r02-play'); b.textContent = '▶ Reproducir'; b.setAttribute('aria-pressed', 'false'); }
+  function play() {
+    if (cur === ESC.length - 1) go(0);
+    auto = setInterval(() => { if (!window.courseMotionPaused && !root.hidden) go(cur + 1); }, 9000);
+    const b = $('#r02-play'); b.textContent = '❚❚ Pausar'; b.setAttribute('aria-pressed', 'true');
+  }
+  $('#r02-prev').addEventListener('click', () => go(cur - 1));
+  $('#r02-next').addEventListener('click', () => go(cur + 1));
+  $('#r02-play').addEventListener('click', () => auto ? stop() : play());
+  nav.addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(+b.dataset.i); });
+  document.addEventListener('keydown', e => {
+    if (root.hidden || e.target.closest('input, textarea, select')) return;
+    if (e.key === 'ArrowRight') { go(cur + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { go(cur - 1); e.preventDefault(); }
+  });
+  document.addEventListener('course-view-change', stop);
+  window.__initOrResume_r02 = () => go(cur);
+  go(0);
+})();
+</script>
+<script id="standalone-open">
+  (() => {
+    const view = document.getElementById('view-r02');
+    view.hidden = false;
+    document.body.classList.add('inside-resource');
+    if (typeof window.__initOrResume_r02 === 'function') window.__initOrResume_r02();
+  })();
+</script>
+<style id="estilo-infografia">
+/* Estilo visual de la infografía (riesgos-ia-datos.html): blanco, tinta, cuatro acentos y sus tipografías */
+:root{--ti-ink:#16202b;--ti-muted:#5a6573;--ti-line:#e2e6eb;--ti-soft:#f4f6f8;
+  --ti-met:#0f8b7a;--ti-met-t:#e4f3f0;--ti-ana:#d06a14;--ti-ana-t:#fcefe1;--ti-her:#2f62d6;--ti-her-t:#e8eefb;
+  --ti-usu:#c3366a;--ti-usu-t:#f9e7ee;--ti-safe:#1d8a4c;--ti-safe-t:#e4f3e9;--ti-bad:#c0392b;--ti-bad-t:#fbe9e7;
+  --ti-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --ti-body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+  --ti-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --ui:var(--ti-body);--sans:var(--ti-body);--serif:var(--ti-display);--fondo:#fff}
+html,body{background:#fff!important}
+body{font-family:var(--ti-body);color:var(--ti-ink)}
+h1,h2,h3{font-family:var(--ti-display);letter-spacing:-.012em;text-wrap:balance}
+h1{font-weight:800!important}
+h1 em{font-family:inherit!important;font-style:normal!important;font-weight:inherit!important;color:inherit!important;
+  background:linear-gradient(transparent 62%,var(--ti-ana-t) 62%);padding:0 .06em}
+svg text{font-family:var(--ti-body)}
+h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus,.pregunta[tabindex="-1"]:focus{outline:none}
+.course-topbar{background:rgba(255,255,255,.94)!important;border-bottom:1px solid var(--ti-line)!important}
+.course-brand{font-family:var(--ti-display)}
+.brand-mark{background:var(--ti-ink)!important}
+.btn-volver-mapa{border-color:var(--ti-line)!important}
+/* Botones en píldora: los principales en tinta, los secundarios en gris suave */
+.rc-btn,.cj-opts button,.acciones button,.btn-mini,.r01-btn{border-radius:999px}
+.r03-q{border-radius:16px}
+.rc-btn{background:var(--ti-soft);border-color:transparent;color:var(--ti-ink);font-weight:700}
+.rc-btn:hover:not(:disabled){background:var(--ti-line)}
+.rc-btn.rc-main,.rc-btn.rc-dark,.r01-btn.r01-main{background:var(--ti-ink)!important;border-color:var(--ti-ink)!important;color:#fff!important}
+.rc-btn.rc-main:hover:not(:disabled),.rc-btn.rc-dark:hover:not(:disabled){background:#2a3644!important}
+.rc-kicker,.r01-kicker,.cj-num,.r02-count{font-family:var(--ti-mono);letter-spacing:.12em;color:var(--ti-muted)}
+.rc-lead,.r01-lead{color:var(--ti-muted)}
+.rc-next{border-top-color:var(--ti-line)}
+/* Tarjetas muy redondeadas */
+.cj-item,.r02-stage,.r03-board,.r01-panel,.r01-alt,.r01-preview,.cj-end{border-radius:20px}
+.cj-item{border-color:var(--ti-line)}
+/* Correcto y error con los colores de la infografía */
+.cj-item.is-ok{border-color:var(--ti-safe);background:var(--ti-safe-t)}
+.cj-item.is-bad{border-color:var(--ti-bad);background:var(--ti-bad-t)}
+.cj-opts button.is-right{background:var(--ti-safe-t);border-color:var(--ti-safe);color:#0f5530}
+.cj-opts button.is-wrong{background:var(--ti-bad-t);border-color:var(--ti-bad);color:#8a2318}
+.cj-fb{border-left-color:var(--ti-safe)}
+.cj-item.is-bad .cj-fb{border-left-color:var(--ti-bad)}
+.cj-bar i{background:var(--ti-ink)}
+.cj-end{background:var(--ti-soft);color:var(--ti-ink)}
+/* Los cuatro eslabones (pregunta, diseño, datos, análisis) en los cuatro acentos */
+.r02-link[data-k="0"]{background:var(--ti-met-t);border-color:var(--ti-met)}.r02-link[data-k="0"] .r02-lab{color:var(--ti-met)}
+.r02-link[data-k="1"]{background:var(--ti-usu-t);border-color:var(--ti-usu)}.r02-link[data-k="1"] .r02-lab{color:var(--ti-usu)}
+.r02-link[data-k="2"]{background:var(--ti-ana-t);border-color:var(--ti-ana)}.r02-link[data-k="2"] .r02-lab{color:var(--ti-ana)}
+.r02-link[data-k="3"]{background:var(--ti-her-t);border-color:var(--ti-her)}.r02-link[data-k="3"] .r02-lab{color:var(--ti-her)}
+.r02-link.is-broken{background:var(--ti-bad-t)!important;border-color:var(--ti-bad)!important}
+.r02-link.is-broken .r02-lab{color:var(--ti-bad)!important}
+.r04-m div:nth-child(1){background:var(--ti-met-t);border-color:var(--ti-met)}.r04-m div:nth-child(1) strong{color:var(--ti-met)}
+.r04-m div:nth-child(2){background:var(--ti-usu-t);border-color:var(--ti-usu)}.r04-m div:nth-child(2) strong{color:var(--ti-usu)}
+.r04-m div:nth-child(3){background:var(--ti-ana-t);border-color:var(--ti-ana)}.r04-m div:nth-child(3) strong{color:var(--ti-ana)}
+.r04-m div:nth-child(4){background:var(--ti-her-t);border-color:var(--ti-her)}.r04-m div:nth-child(4) strong{color:var(--ti-her)}
+.r03-group[data-g="diseno"] h3{color:var(--ti-usu)}.r03-group[data-g="unidad"] h3{color:var(--ti-her)}
+.r03-group[data-g="datos"] h3{color:var(--ti-ana)}.r03-group[data-g="analisis"] h3{color:var(--ti-met)}
+/* Barra propia de los recursos de esta carpeta */
+.ti-top{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--ti-line)}
+.ti-top>div{max-width:1216px;margin:0 auto;padding:0 28px;height:60px;display:flex;align-items:center;gap:16px}
+.ti-brand{display:flex;align-items:center;gap:10px;font-family:var(--ti-display);font-weight:800;font-size:17px;min-width:0}
+.ti-brand>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ti-dots{display:grid;grid-template-columns:repeat(2,8px);gap:3px;flex:none}
+.ti-dots i{width:8px;height:8px;border-radius:2px;display:block}
+.ti-back{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:8px 15px 8px 12px;border-radius:999px;background:var(--ti-soft);color:var(--ti-ink);text-decoration:none;white-space:nowrap}
+.ti-back:hover{background:var(--ti-line)}
+@media(max-width:700px){.ti-top>div{padding:0 16px}.ti-brand{font-size:15px}}
+</style>
+</body>
+</html>

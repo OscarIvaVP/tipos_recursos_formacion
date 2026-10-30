@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riesgos de la IA en datos · Infografía</title>
+<meta name="description" content="Infografía: dónde se equivoca la IA cuando investigamos con datos, fase por fase, y cómo prevenirlo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Infografía de una sola página: el mapa del ciclo arriba y, debajo, cada fase se desprende con sus riesgos.
+   Cada riesgo muestra solo su nombre y se despliega con un clic: definición, cómo evitarlo y prompt.
+   Estilo de riesgos-ia-datos.html; sin vistas, sin progreso y sin rótulos sueltos. */
+:root{
+  --bg:#ffffff; --soft:#f4f6f8; --ink:#16202b; --muted:#5a6573; --line:#e2e6eb;
+  --met:#0f8b7a; --met-t:#e4f3f0;
+  --ana:#d06a14; --ana-t:#fcefe1;
+  --her:#2f62d6; --her-t:#e8eefb;
+  --usu:#c3366a; --usu-t:#f9e7ee;
+  --safe:#1d8a4c; --safe-t:#e4f3e9;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{background:var(--bg);margin:0}
+body{color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;overflow-x:hidden}
+.pad{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.wrap{max-width:1160px;margin:0 auto}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:12px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.012em}
+p{margin:0}
+svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+main{padding-block:32px 64px}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.sec-h{margin:52px 0 18px}
+.sec-h h2{font-size:clamp(22px,2.8vw,30px);font-weight:800}
+
+/* ---------- BARRA ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:17px;white-space:nowrap}
+.brand .dots{display:grid;grid-template-columns:repeat(2,8px);gap:3px}
+.brand .dots i{width:8px;height:8px;border-radius:2px;display:block}
+.back{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:8px 15px 8px 12px;border-radius:999px;background:var(--soft);text-decoration:none;white-space:nowrap;transition:background .2s}
+.back:hover{background:var(--line)}
+
+/* ---------- PORTADA ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero h1{font-size:clamp(32px,5.2vw,58px);line-height:1.02;font-weight:800}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%, var(--ana-t) 62%)}
+.ring{width:min(250px,66vw);aspect-ratio:1;max-width:100%;position:relative;margin:0 auto}
+.ring svg{width:100%;height:100%;overflow:visible}
+.ring path{fill:none;stroke-width:20;cursor:pointer;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s cubic-bezier(.3,.7,.2,1) forwards;transition:stroke-width .3s}
+.ring path:hover{stroke-width:26}
+.ring .mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none}
+.ring .num{font-family:var(--f-display);font-weight:800;font-size:clamp(46px,8vw,62px);line-height:.95}
+.ring .lbl{color:var(--muted);font-size:15px;font-weight:600}
+
+/* ---------- MAPA DEL CICLO ---------- */
+.cycle{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr) 40px minmax(0,1fr);align-items:stretch}
+.cyc-link{display:grid;place-items:center;color:var(--muted)}
+.cyc-link svg{width:28px;height:28px}
+.pcard{background:var(--t);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:16px;text-decoration:none;
+  border:1.5px solid transparent;transition:border-color .3s, box-shadow .3s, transform .3s;animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
+.pcard:hover{border-color:var(--c);box-shadow:0 18px 38px -24px var(--c);transform:translateY(-4px)}
+.pcard .head{display:flex;align-items:center;gap:13px}
+.badge{width:50px;height:50px;border-radius:15px;background:var(--c);color:#fff;display:grid;place-items:center;flex:none}
+.badge svg.i{width:27px;height:27px}
+.pcard .ttl{font-family:var(--f-display);font-size:21px;line-height:1.1;font-weight:800;letter-spacing:-.012em;text-wrap:balance}
+.pcard .go{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--c);font-size:14.5px}
+.pcard .go .arr{width:34px;height:34px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;transition:transform .3s;flex:none}
+.pcard .go .arr svg{transform:rotate(90deg)}
+.pcard:hover .go .arr{transform:translateY(4px)}
+/* «En quien la usa» recibe una línea desde cada fase: atraviesa todo el ciclo sin necesidad de rótulo */
+.stems{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr) 40px minmax(0,1fr);height:26px}
+.stems i{justify-self:center;width:2px;background:repeating-linear-gradient(var(--usu) 0 5px, transparent 5px 9px)}
+.stems i:nth-child(2){grid-column:3}.stems i:nth-child(3){grid-column:5}
+.cross .pcard{flex-direction:row;flex-wrap:wrap;align-items:center;gap:18px 26px}
+.cross .pcard .head{flex:1 1 280px}
+.cross .pcard .go{margin-top:0;flex:0 0 auto;gap:12px}
+
+/* ---------- FASES QUE SE DESPRENDEN ---------- */
+.unfold{margin-top:8px}
+.phase{position:relative;padding:34px 0 8px 46px;scroll-margin-top:72px}
+.phase::before{content:"";position:absolute;left:21px;top:0;bottom:0;width:3px;border-radius:3px;background:var(--c);transform-origin:top;transform:scaleY(0);transition:transform .9s cubic-bezier(.3,.7,.2,1)}
+.phase.in::before{transform:none}
+.ph-head{display:flex;align-items:center;gap:16px;margin-bottom:20px;position:relative}
+.ph-head .badge{position:absolute;left:-50px;width:40px;height:40px;border-radius:12px;box-shadow:0 0 0 6px var(--bg)}
+.ph-head .badge svg.i{width:22px;height:22px}
+.ph-head h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;line-height:1.08;padding:6px 0}
+/* Cada riesgo es solo su nombre; al hacer clic se despliega la definición, cómo evitarlo y el prompt */
+.risks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.rk{border:1.5px solid var(--line);border-radius:20px;min-width:0;background:var(--bg);scroll-margin-top:80px;transition:border-color .3s, box-shadow .3s, background .3s}
+.rk:hover{border-color:var(--c)}
+.rk[open]{border-color:var(--c);box-shadow:0 18px 38px -28px var(--c)}
+.rk summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:18px}
+.rk summary::-webkit-details-marker{display:none}
+.rk summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.rk summary:hover{background:var(--t)}
+.rk[open] summary{background:var(--t);border-radius:18px 18px 0 0}
+.rk h3{flex:1;font-size:clamp(19px,2vw,22px);font-weight:800;line-height:1.15;color:var(--c)}
+.rk .tog{width:32px;height:32px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;flex:none;transition:transform .3s}
+.rk .tog svg{width:18px;height:18px;transform:rotate(90deg)}
+.rk[open] .tog{transform:rotate(180deg)}
+.rk .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px}
+.rk[open] .body{animation:rise .4s cubic-bezier(.2,.8,.2,1) both}
+.rk .def{font-size:clamp(18px,1.9vw,20px);line-height:1.45;font-weight:500;color:var(--ink);padding-left:14px;border-left:4px solid var(--c)}
+.box{border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;min-width:0}
+.box .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:none}
+.box .ic svg.i{width:19px;height:19px}
+.box p,.box ul{font-size:15px;line-height:1.5;padding-top:6px}
+.b-ev{background:var(--safe-t)}
+.b-ev .ic{background:var(--safe);color:#fff}
+.b-ev ul{list-style:none;margin:0;padding:6px 0 0;display:flex;flex-direction:column;gap:7px}
+.b-ev li{display:flex;gap:8px}
+.b-ev li svg{width:17px;height:17px;color:var(--safe);margin-top:2px;flex:none;stroke-width:2.6}
+.b-pr{border:1.5px dashed var(--c);flex-direction:column;gap:10px}
+.b-pr .row{display:flex;align-items:center;gap:12px;width:100%}
+.b-pr .ic{background:var(--t);color:var(--c)}
+.prompt{font-family:var(--f-mono);font-size:13px;line-height:1.55;background:var(--soft);border-radius:12px;padding:12px 14px;white-space:pre-wrap;word-break:break-word;margin:0;width:100%}
+.copy{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--c);color:#fff;transition:opacity .2s}
+.copy:hover{opacity:.88}
+.copy svg{width:15px;height:15px}
+
+/* Aparición al bajar: las fichas se desprenden de su fase */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- CIERRE ---------- */
+.habits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.habit{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45}
+.habit .k{width:38px;height:38px;border-radius:50%;background:var(--safe-t);color:var(--safe);display:grid;place-items:center;flex:none}
+.habit .k svg.i{width:20px;height:20px}
+.gold{margin-top:22px;background:var(--ink);color:#fff;border-radius:18px;padding:18px 22px;display:flex;gap:14px;align-items:center;font-size:17px}
+.gold strong{font-family:var(--f-display);font-weight:800}
+.ckgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.ckgroup{background:var(--t);border-radius:20px;padding:20px}
+.ckgroup h3{display:flex;align-items:center;gap:10px;font-size:18px;margin-bottom:6px}
+.ckgroup h3 .badge{width:34px;height:34px;border-radius:10px}
+.ckgroup h3 .badge svg.i{width:19px;height:19px}
+.ckgroup ul{list-style:none;margin:0;padding:0}
+.ckgroup li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--bg);margin-top:8px;font-size:15.5px;line-height:1.4}
+.ckgroup li svg{width:18px;height:18px;color:var(--c);margin-top:2px;flex:none;stroke-width:2.6}
+
+footer{border-top:1px solid var(--line);padding-block:18px 24px;color:var(--muted);font-size:13.5px}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 980px){
+  .cycle{grid-template-columns:minmax(0,1fr)}
+  .cyc-link{height:34px}
+  .cyc-link svg{transform:rotate(90deg)}
+  .stems{display:none}
+  .cross{margin-top:16px}
+  .habits{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .risks{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width: 820px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:28px}
+  .ckgrid{grid-template-columns:minmax(0,1fr)}
+  .brand .txt{display:none}
+}
+@media (max-width: 600px){
+  main{padding-block:20px 44px}
+  .habits{grid-template-columns:minmax(0,1fr)}
+  .phase{padding-left:38px}
+  .phase::before{left:15px}
+  .ph-head .badge{left:-42px;width:34px;height:34px}
+  .rk summary{padding:16px}
+  .rk .body{padding:16px}
+  .gold{font-size:15px}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
+  .ring path{stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+
+<header class="top pad">
+  <div class="wrap">
+    <div class="brand"><span class="dots" aria-hidden="true"><i style="background:var(--met)"></i><i style="background:var(--ana)"></i><i style="background:var(--her)"></i><i style="background:var(--usu)"></i></span><span class="txt">Riesgos de la IA en datos</span></div>
+    <a class="back" href="index.html"><span aria-hidden="true">←</span> Tipos de recursos</a>
+  </div>
+</header>
+
+<main class="pad">
+<div class="wrap">
+
+  <section class="hero" aria-labelledby="titulo">
+    <h1 id="titulo">¿Dónde se equivoca la IA cuando <em>investigamos con datos</em>?</h1>
+    <div class="ring">
+      <svg viewBox="0 0 200 200" id="ringsvg" role="img" aria-label="Diecisiete riesgos repartidos en cuatro momentos del análisis"></svg>
+      <div class="mid"><div class="num" id="ringnum"></div><div class="lbl">riesgos</div></div>
+    </div>
+  </section>
+
+  <div class="sec-h"><h2>El ciclo de un análisis con IA</h2></div>
+  <nav aria-label="Fases del ciclo">
+    <div class="cycle" id="cycle"></div>
+    <div class="stems" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="cross" id="cross"></div>
+  </nav>
+
+  <div class="unfold" id="unfold"></div>
+
+  <div class="sec-h"><h2>Cuatro hábitos que previenen casi todos</h2></div>
+  <div class="habits">
+    <div class="habit"><span class="k"><svg class="i" viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7z"/><path d="M10 12h6M10 16h4"/></svg></span><span>Fijar el plan de análisis antes de darle los datos al agente.</span></div>
+    <div class="habit"><span class="k"><svg class="i" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6A2 2 0 0 0 19 18l-5-9V3"/></svg></span><span>Probar primero con datos sintéticos de resultado conocido.</span></div>
+    <div class="habit"><span class="k"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span><span>Exigir un registro de supuestos y de cada transformación.</span></div>
+    <div class="habit"><span class="k"><svg class="i" viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span><span>Verificar a mano al menos un resultado clave.</span></div>
+  </div>
+  <div class="gold"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span><strong>Regla de oro.</strong> No se reporta nada que no se pueda explicar.</span></div>
+
+  <div class="sec-h"><h2>Antes de reportar un análisis hecho con IA</h2></div>
+  <div class="ckgrid" id="ckgrid"></div>
+
+</div>
+</main>
+
+<footer class="pad"><div class="wrap"><span>Recurso del módulo «Métodos y análisis de datos» · Uso íntegro y crítico de la IA</span></div></footer>
+
+<script>
+/* ================= ÍCONOS (de riesgos-ia-datos.html) ================= */
+const ICON = {
+  met:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  ana:'<path d="M4 20V11M9 20V6M14 20v-5"/><circle cx="17.5" cy="9.5" r="3"/><path d="M19.6 11.6L22 14"/>',
+  her:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
+  usu:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  def:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
+  ej:'<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6A2 2 0 0 0 19 18l-5-9V3"/><path d="M7.5 15h9"/>',
+  alert:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.01"/>',
+  ev:'<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  pr:'<path d="M4 6h16v12H4z"/><path d="M8 10l2 2-2 2M12 14h4"/>',
+  copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  check:'<path d="M5 12l4 4L19 6"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  left:'<path d="M15 6l-6 6 6 6"/>', right:'<path d="M9 6l6 6-6 6"/>'
+};
+const svg = (k, cls='i') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICON[k]}</svg>`;
+const css = id => `--c:var(--${id});--t:var(--${id}-t)`;
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* ================= CONTENIDO (literal de riesgos-ia-datos.html) ================= */
+const PH = [
+ {id:'met', name:'Al construir la metodología', short:'Metodología', errors:[
+  {n:'Diseño genérico',
+   d:'El modelo propone el diseño más frecuente en lo que aprendió, no el que exige tu pregunta de investigación.',
+   e:'Para comparar el rendimiento de tres variedades de arroz sugiere una encuesta a productores, cuando el problema pide un experimento en bloques al azar.',
+   s:'La propuesta serviría para casi cualquier tema: cambias la variable y el diseño sigue igual.',
+   v:['Define antes la pregunta, el tipo y el nivel de investigación.','Pide tres diseños alternativos con sus limitaciones.','Elige con criterio propio y justifica la elección.'],
+   p:'Mi pregunta de investigación es: [pregunta]. Propón tres diseños distintos, con su nivel de evidencia, supuestos y limitaciones. No elijas por mí.'},
+  {n:'Coherencia aparente',
+   d:'El texto está bien redactado, pero la pregunta, las variables, el diseño y el análisis no se corresponden entre sí.',
+   e:'Un objetivo que busca explicar por qué cae la productividad, resuelto solo con promedios y gráficos de barras.',
+   s:'Hay un objetivo sin análisis asociado, o un análisis que no responde a ningún objetivo.',
+   v:['Construye una matriz de consistencia: objetivo, variable, instrumento y análisis.','Revisa fila por fila que cada objetivo tenga su análisis.'],
+   p:'Construye una matriz con las columnas objetivo, variable, instrumento y análisis a partir de este texto: [metodología]. Señala los objetivos que quedan sin responder.'},
+  {n:'Fundamentos inventados',
+   d:'Referencias que no existen, métodos atribuidos al autor equivocado o tamaños de muestra con supuestos sin justificar.',
+   e:'Cita un "Cochran (2015)" inexistente, o fija n = 384 asumiendo p = 0,5 sin explicar de dónde sale.',
+   s:'Citas sin DOI, autores que no encuentras o un tamaño de muestra que aparece sin cálculo.',
+   v:['Verifica cada cita por DOI, Google Scholar o Scopus.','Recalcula la muestra con parámetros propios, de un piloto o de la literatura.'],
+   p:'Sugiere solo referencias con DOI. Si no estás seguro de que una fuente exista, dilo. Muestra el cálculo del tamaño de muestra con cada parámetro y su origen.'},
+  {n:'Sesgo de contexto',
+   d:'Prioriza literatura, instrumentos y condiciones de otros países, sobre todo del mundo anglosajón.',
+   e:'Propone un cuestionario validado con agricultores de Estados Unidos para aplicarlo en el Meta sin ninguna adaptación.',
+   s:'Todas las fuentes y ejemplos son de otros países y nada menciona condiciones locales.',
+   v:['Pide de forma explícita que considere el contexto local.','Valida los instrumentos con juicio de expertos y prueba piloto.'],
+   p:'Adapta esta propuesta a [región y población]. Indica qué supuestos o instrumentos podrían no aplicar aquí y cómo validarlos.'}
+ ]},
+ {id:'ana', name:'Al analizar los datos', short:'Análisis', errors:[
+  {n:'p-hacking automatizado',
+   d:'El agente prueba muchas especificaciones en segundos y reporta la que sale significativa.',
+   e:'Ensaya 20 combinaciones de variables y solo te muestra la única con p < 0,05.',
+   s:'El resultado llega "limpio", sin que sepas cuántos modelos o variables se descartaron.',
+   v:['Cierra el plan de análisis antes de entregar los datos.','Exige un registro de todo lo que se probó.','Corrige por comparaciones múltiples.'],
+   p:'Sigue solo este plan de análisis: [plan]. No agregues ni quites variables. Si algo cambia, repórtalo y lista todo lo que probaste.'},
+  {n:'Supuestos sin verificar',
+   d:'Aplica pruebas por defecto sin revisar si los datos cumplen sus condiciones.',
+   e:'Corre un ANOVA con residuos no normales, varianzas desiguales y apenas 8 datos por grupo.',
+   s:'El informe muestra la prueba y el p-valor, pero ningún gráfico de residuos ni prueba de supuestos.',
+   v:['Exige el diagnóstico: residuos, Shapiro-Wilk y Levene.','Pide una alternativa si los supuestos fallan: prueba no paramétrica, transformación o GLM.'],
+   p:'Antes de interpretar, verifica los supuestos de la prueba: normalidad de residuos, homogeneidad de varianzas e independencia. Si alguno falla, propón una alternativa.'},
+  {n:'Decisiones silenciosas',
+   d:'Transforma, filtra o recodifica los datos sin decírtelo.',
+   e:'Un dropna() elimina el 30 % de los registros, o quita valores atípicos por rango intercuartílico sin avisar.',
+   s:'El n del resultado no coincide con el de la base original.',
+   v:['Pide el número de registros antes y después de cada paso.','Exige un registro escrito de cada transformación.'],
+   p:'No elimines, imputes ni recodifiques datos sin avisarme. Después de cada paso reporta el número de filas y qué cambió.'},
+  {n:'Unidad de análisis equivocada',
+   d:'Trata como independientes observaciones que no lo son.',
+   e:'Mediciones repetidas en las mismas parcelas analizadas como muestras distintas, o una partición aleatoria en series de tiempo que filtra el futuro al entrenamiento.',
+   s:'Hay repeticiones, parcelas, personas o fechas, y el modelo no las tiene en cuenta.',
+   v:['Describe la estructura de los datos en el prompt: anidamiento, tiempo y repeticiones.','Usa modelos mixtos y validación temporal o por grupos.'],
+   p:'Mis datos tienen esta estructura: [mediciones repetidas, grupos o tiempo]. ¿Qué observaciones son dependientes y qué modelo y esquema de validación corresponden?'},
+  {n:'Interpretación sobreconfiada',
+   d:'Narra resultados con lenguaje causal o presenta cifras que nunca calculó.',
+   e:'"El fertilizante aumenta el rendimiento" con datos observacionales, o un R² reportado sin haber ejecutado código.',
+   s:'Verbos como "causa", "provoca" o "aumenta" en un estudio observacional, o cifras sin código que las respalde.',
+   v:['Todo número debe salir de código ejecutado.','Revisa los verbos causales del texto.','Ajusta las conclusiones al nivel de evidencia del diseño.'],
+   p:'Interpreta solo las cifras que calculó el código. Usa un lenguaje acorde a un diseño [observacional o experimental] y señala qué no se puede concluir.'},
+  {n:'HARKing',
+   d:'Formular la hipótesis después de ver los resultados y presentarla como si fuera previa.',
+   e:'El agente encuentra una relación inesperada y el estudiante la redacta como su hipótesis inicial.',
+   s:'La hipótesis del informe no aparece en ningún documento anterior al análisis.',
+   v:['Fecha tus hipótesis antes del análisis.','Separa en el informe lo confirmatorio de lo exploratorio.'],
+   p:'Separa los resultados en dos bloques: los que responden a mis hipótesis previas ([hipótesis]) y los hallazgos exploratorios que requieren confirmación.'}
+ ]},
+ {id:'her', name:'En las herramientas que se construyen', short:'Herramientas', errors:[
+  {n:'Código que corre, pero está mal',
+   d:'Errores lógicos que no generan ningún aviso: el script termina y el resultado es falso.',
+   e:'Promedia una variable categórica codificada como 1 y 2, o un join duplica filas sin que nadie lo note.',
+   s:'Totales, promedios o conteos que no cuadran con lo que sabes de los datos.',
+   v:['Prueba con datos sintéticos cuyo resultado ya conoces.','Verifica a mano al menos un resultado clave.'],
+   p:'Escribe una prueba con un conjunto pequeño de datos inventados cuyo resultado ya conozco: [resultado esperado]. Muéstrame si el código lo reproduce.'},
+  {n:'Baja reproducibilidad',
+   d:'El mismo prompt genera código distinto cada vez y no hay semillas ni versiones fijadas.',
+   e:'Dos estudiantes con los mismos datos obtienen importancias de variables diferentes en un random forest.',
+   s:'No puedes obtener exactamente el mismo número dos días después.',
+   v:['Guarda el script final, no solo el prompt.','Fija semillas y versiones de librerías.','Archiva los prompts que usaste.'],
+   p:'Entrega un único script comentado, con semilla fija y la lista de librerías con su versión, que reproduzca todo el análisis desde los datos crudos.'},
+  {n:'Integridad de los datos',
+   d:'El agente modifica o sobrescribe los archivos originales.',
+   e:'Guarda la base limpia encima del archivo crudo y ya no hay forma de volver atrás.',
+   s:'Ya no tienes una copia del archivo tal como lo recibiste.',
+   v:['Mantén una carpeta de datos crudos de solo lectura.','Trabaja siempre sobre copias.','Usa control de versiones, por ejemplo Git.'],
+   p:'Trata la carpeta datos/crudos como de solo lectura. Guarda cada resultado en una carpeta nueva y nunca sobrescribas archivos existentes.'},
+  {n:'Privacidad',
+   d:'Datos personales o sensibles terminan en servicios en la nube sin control.',
+   e:'Se carga a un chatbot una encuesta con nombres, cédulas y teléfonos de los participantes.',
+   s:'La base que vas a cargar tiene nombres, documentos, teléfonos o ubicaciones exactas.',
+   v:['Anonimiza antes de cargar.','Usa datos sintéticos con la misma estructura.','Revisa el consentimiento informado y la política de la herramienta.'],
+   p:'Genera una base sintética con las mismas columnas, tipos y rangos de esta descripción: [estructura]. Con ella construiremos el código.'}
+ ]},
+ {id:'usu', name:'En quien la usa', short:'Persona', errors:[
+  {n:'Sesgo de automatización',
+   d:'Confiar en la salida porque parece técnica y precisa.',
+   e:'Se acepta una tabla llena de p-valores y coeficientes sin revisar ninguno.',
+   s:'Copias la tabla al informe sin haber revisado una sola cifra.',
+   v:['Aplica la regla de oro: no se reporta lo que no se puede explicar.','Haz revisión cruzada entre pares.'],
+   p:'Explícame cada número de esta tabla como si yo tuviera que defenderlo ante un jurado, y dime cuáles debería verificar a mano.'},
+  {n:'Complacencia del modelo',
+   d:'El modelo tiende a darte la razón y a confirmar lo que sugiere tu prompt.',
+   e:'"Demuestra que X afecta a Y" lo empuja a buscar hasta encontrar algo que lo confirme.',
+   s:'El modelo siempre está de acuerdo contigo, incluso cuando cambias de opinión.',
+   v:['Escribe prompts neutrales: "¿existe relación entre X y Y?".','Pídele que intente refutar el resultado.'],
+   p:'Actúa como revisor crítico de este resultado: [resultado]. ¿Qué evidencia lo contradiría y qué explicaciones alternativas hay?'},
+  {n:'Ilusión de competencia',
+   d:'Reportar análisis que no se entienden ni se pueden defender.',
+   e:'En la sustentación, el estudiante no sabe explicar por qué usó Kruskal-Wallis.',
+   s:'Puedes mostrar el resultado, pero no explicar por qué se eligió ese método.',
+   v:['Exige la justificación escrita con palabras propias.','Haz defensa oral de cada decisión.','Usa la IA como tutor que pregunta, no solo como ejecutor.'],
+   p:'No me des la respuesta. Hazme preguntas, una por una, para que yo justifique la elección de la prueba y sus supuestos.'}
+ ]}
+];
+const ALL = []; PH.forEach((p,pi) => p.errors.forEach((e,ei) => { e.code = 'R' + String(ALL.length+1).padStart(2,'0'); e.pi = pi; e.ei = ei; e.ph = p.id; ALL.push(e); }));
+const TOTAL = ALL.length;
+const byCode = c => ALL.find(e => e.code === c);
+
+const CHECK = {
+ met:['La pregunta, el tipo y el nivel de investigación estaban definidos antes de pedir ayuda a la IA.','Cada objetivo tiene variable, instrumento y análisis en la matriz de consistencia.','Todas las referencias se verificaron por DOI o en una base de datos.','Los instrumentos se adaptaron y validaron para el contexto local.'],
+ ana:['El plan de análisis se cerró antes de entregar los datos.','Se verificaron y reportaron los supuestos de cada prueba.','Se reporta el n antes y después de cada limpieza.','El modelo respeta la estructura de los datos: repeticiones, grupos o tiempo.','Las conclusiones usan un lenguaje acorde al diseño.'],
+ her:['El código se probó con datos sintéticos de resultado conocido.','Hay un script final con semillas y versiones de librerías.','Los datos crudos están intactos y respaldados.','No se cargaron datos personales a la nube sin anonimizar.'],
+ usu:['Puedo explicar cada cifra del informe con mis palabras.','Pedí a la IA que intentara refutar el resultado.','Declaré cómo usé la IA en el trabajo.']
+};
+const CK_TOTAL = Object.values(CHECK).reduce((a,b) => a + b.length, 0);
+
+/* Abre la ficha de un riesgo (desde el anillo) y la muestra */
+function abrirRiesgo(id){
+  const d = document.getElementById(id); if (!d) return;
+  d.open = true; d.classList.add('in');
+  const ph = d.closest('.phase'); if (ph) ph.classList.add('in');
+  d.scrollIntoView({block:'start'});
+  d.querySelector('summary').focus({preventScroll:true});
+}
+
+/* ================= ANILLO: un segmento por riesgo; abre su ficha ================= */
+(function(){
+  const g = document.getElementById('ringsvg'), R = 82, C = 100, step = 360/TOTAL, gap = 2.4;
+  const pt = a => { const r = (a-90)*Math.PI/180; return [C + R*Math.cos(r), C + R*Math.sin(r)]; };
+  g.innerHTML = ALL.map((e,i) => {
+    const [x0,y0] = pt(i*step + gap/2), [x1,y1] = pt((i+1)*step - gap/2);
+    return `<path data-code="${e.code}" pathLength="1" style="stroke:var(--${e.ph});animation-delay:${(.15+i*.045).toFixed(2)}s" d="M${x0.toFixed(2)} ${y0.toFixed(2)} A${R} ${R} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}"><title>${e.n}</title></path>`;
+  }).join('');
+  g.querySelectorAll('path').forEach(p => p.addEventListener('click', () => abrirRiesgo(p.dataset.code.toLowerCase())));
+  document.getElementById('ringnum').textContent = TOTAL;
+})();
+
+/* ================= MAPA DEL CICLO ================= */
+function cardHTML(p, i){
+  return `<a class="pcard" href="#fase-${p.id}" style="${css(p.id)};animation-delay:${(i*.08).toFixed(2)}s">
+    <span class="head"><span class="badge">${svg(p.id)}</span><span class="ttl">${p.name}</span></span>
+    <span class="go"><span>Ver sus ${p.errors.length} riesgos</span><span class="arr">${svg('arrow')}</span></span>
+  </a>`;
+}
+document.getElementById('cycle').innerHTML = PH.slice(0,3).map((p,i) => cardHTML(p,i) + (i < 2 ? `<div class="cyc-link" aria-hidden="true">${svg('arrow')}</div>` : '')).join('');
+document.getElementById('cross').innerHTML = cardHTML(PH[3], 3);
+
+/* ================= FASES Y FICHAS ================= */
+document.getElementById('unfold').innerHTML = PH.map(p => `
+  <section class="phase" id="fase-${p.id}" style="${css(p.id)}" aria-labelledby="h-${p.id}">
+    <div class="ph-head"><span class="badge">${svg(p.id)}</span><h2 id="h-${p.id}">${p.name}</h2></div>
+    <div class="risks">${p.errors.map(E => `
+      <details class="rk rv" id="${E.code.toLowerCase()}">
+        <summary><h3>${E.n}</h3><span class="tog" aria-hidden="true">${svg('arrow')}</span></summary>
+        <div class="body">
+          <p class="def">${E.d}</p>
+          <div class="box b-ev"><span class="ic" title="Cómo evitarlo">${svg('ev')}</span><ul aria-label="Cómo evitarlo">${E.v.map(t => `<li>${svg('check')}<span>${t}</span></li>`).join('')}</ul></div>
+          <div class="box b-pr"><div class="row"><span class="ic" title="Prompt de mitigación">${svg('pr')}</span><span class="sr">Prompt de mitigación</span><button class="copy" type="button">${svg('copy')}<span>Copiar</span></button></div><pre class="prompt">${esc(E.p)}</pre></div>
+        </div>
+      </details>`).join('')}
+    </div>
+  </section>`).join('');
+
+document.getElementById('unfold').addEventListener('click', ev => {
+  const btn = ev.target.closest('.copy'); if (!btn) return;
+  const pre = btn.closest('.b-pr').querySelector('.prompt'), lab = btn.querySelector('span');
+  const sel = () => { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+  const done = t => { lab.textContent = t; setTimeout(() => lab.textContent = 'Copiar', 1800); };
+  try { navigator.clipboard.writeText(pre.textContent).then(() => done('Copiado'), () => { sel(); done('Seleccionado'); }); }
+  catch(e) { sel(); done('Seleccionado'); }
+});
+
+/* ================= ANTES DE REPORTAR ================= */
+document.getElementById('ckgrid').innerHTML = PH.map(p => `<div class="ckgroup" style="${css(p.id)}"><h3><span class="badge">${svg(p.id)}</span>${p.short}</h3>
+  <ul>${CHECK[p.id].map(t => `<li>${svg('check')}<span>${t}</span></li>`).join('')}</ul></div>`).join('');
+
+/* ================= APARICIÓN AL BAJAR ================= */
+(function(){
+  const targets = [...document.querySelectorAll('.phase, .rv')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) { targets.forEach(t => t.classList.add('in')); return; }
+  const io = new IntersectionObserver(en => en.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), {rootMargin:'0px 0px -8% 0px'});
+  targets.forEach(t => io.observe(t));
+  // Al llegar por un enlace a una fase, se muestra de una vez
+  addEventListener('hashchange', () => { const t = document.getElementById(location.hash.slice(1)); if (t) { t.classList.add('in'); t.querySelectorAll('.rv').forEach(r => r.classList.add('in')); } });
+})();
+</script>
+</body>
+</html>
